@@ -1,0 +1,54 @@
+\begin{table}[H]
+\centering
+\caption{Survey-weighted mean Height-for-Age Z-score (HAZ) by child, maternal, and household characteristics}
+\label{tab:mean_haz}
+\begin{threeparttable}
+
+\small
+\renewcommand{\arraystretch}{1.15}
+\setlength{\tabcolsep}{15pt}   % reduce from 10pt to 3pt
+
+\begin{tabularx}{\textwidth}{>{\raggedright\arraybackslash}X r r}
+\toprule
+\textbf{Characteristic} & \textbf{Mean HAZ ($\pm$ SD)} & \textbf{p-value} \\
+\midrule
+
+\multicolumn{3}{l}{\textbf{Sex of child}} \\
+Male   & -1.448 $\pm$ 1.705 &  \\
+Female & -1.383 $\pm$ 1.716 & \textless0.001 \\
+
+\addlinespace[4pt]
+\multicolumn{3}{l}{\textbf{Ill in past 2 weeks}} \\
+No  & -1.412 $\pm$ 1.731 &  \\
+Yes & -1.431 $\pm$ 1.649 & 0.027 \\
+
+\addlinespace[4pt]
+\multicolumn{3}{l}{\textbf{Mother's education}} \\
+No education & -1.836 $\pm$ 1.758 &  \\
+Primary      & -1.630 $\pm$ 1.650 &  \\
+Secondary    & -1.292 $\pm$ 1.661 &  \\
+Higher       & -0.812 $\pm$ 1.618 & \textless0.001 \\
+
+\addlinespace[4pt]
+\multicolumn{3}{l}{\textbf{Wealth index}} \\
+Poorest & -1.839 $\pm$ 1.784 &  \\
+Poorer  & -1.588 $\pm$ 1.728 &  \\
+Middle  & -1.384 $\pm$ 1.644 &  \\
+Richer  & -1.154 $\pm$ 1.578 &  \\
+Richest & -0.857 $\pm$ 1.597 & \textless0.001 \\
+
+\addlinespace[4pt]
+\multicolumn{3}{l}{\textbf{Residence}} \\
+Urban & -1.173 $\pm$ 1.589 &  \\
+Rural & -1.508 $\pm$ 1.744 & \textless0.001 \\
+
+\bottomrule
+\end{tabularx}
+
+\begin{tablenotes}[flushleft]
+\footnotesize
+\item Notes: Values represent survey-weighted mean height-for-age z-scores (HAZ) with standard deviations. P-values are derived from survey-weighted linear regression models (Wald tests for categorical variables). Estimates account for sampling weights, clustering, and stratification.
+\end{tablenotes}
+
+\end{threeparttable}
+\end{table}

@@ -1,0 +1,71 @@
+\begin{table}[htbp]
+\centering
+\caption{Survey-weighted logistic regression predicting usable child height data (pooled DHS surveys, 2011--2022)}
+\label{tab:logit_main}
+\begin{threeparttable}
+
+
+\small
+\renewcommand{\arraystretch}{1.12}
+\setlength{\tabcolsep}{6pt}
+\begin{adjustbox}{max width=\textwidth}
+\begin{tabularx}{\textwidth}{X l r r r}
+\toprule
+\textbf{Variable} & \textbf{Level} & \textbf{Adj. OR} & \textbf{95\% CI} & \textbf{p-value} \\
+\midrule
+
+\addlinespace[3pt]
+\multicolumn{5}{l}{\textbf{Child characteristics}}\\
+\addlinespace[2pt]
+
+Child age (months) & Continuous & 1.012 & (1.011, 1.013) & \(<0.001\) \\
+
+Sex of child & Male   & 1.00 &  &  \\
+             & Female & 1.079 & (1.046, 1.115) & \(<0.001\) \\
+
+Ill in past 2 weeks & No  & 1.00 &  &  \\
+                   & Yes & 1.340 & (1.287, 1.395) & \(<0.001\) \\
+
+Number of children in household & Continuous & 0.966 & (0.948, 0.985) & 0.001 \\
+
+\addlinespace[4pt]
+\multicolumn{5}{l}{\textbf{Maternal characteristics}}\\
+\addlinespace[2pt]
+
+Mother's age (years) & Continuous & 0.999 & (0.995, 1.003) & 0.675 \\
+
+Mother's education & No education & 1.00 &  &  \\
+                  & Primary   & 1.162 & (1.098, 1.229) & \(<0.001\) \\
+                  & Secondary & 1.164 & (1.111, 1.219) & \(<0.001\) \\
+                  & Higher    & 1.011 & (0.944, 1.083) & 0.759 \\
+
+Currently pregnant & No  & 1.00 &  &  \\
+                  & Yes & 1.169 & (1.092, 1.250) & \(<0.001\) \\
+
+\addlinespace[4pt]
+\multicolumn{5}{l}{\textbf{Household characteristics}}\\
+\addlinespace[2pt]
+
+Wealth index & Poorest & 1.00 &  &  \\
+            & Poorer  & 1.052 & (1.003, 1.104) & 0.038 \\
+            & Middle  & 1.005 & (0.952, 1.061) & 0.858 \\
+            & Richer  & 0.979 & (0.915, 1.049) & 0.547 \\
+            & Richest & 0.776 & (0.726, 0.830) & \(<0.001\) \\
+
+Household head & Male   & 1.00 &  &  \\
+               & Female & 1.039 & (0.989, 1.092) & 0.133 \\
+
+Residence & Urban & 1.00 &  &  \\
+          & Rural & 1.344 & (1.274, 1.417) & \(<0.001\) \\
+
+\bottomrule
+\end{tabularx}
+\end{adjustbox} 
+
+\begin{tablenotes}[flushleft]
+\footnotesize
+\item \textbf{Model information.} Observations: 509{,}006. PSUs (clusters): 62{,}643. Outcome: usable height data (1 = usable; 0 = missing/implausible). Odds ratios are derived from survey-weighted logistic regression models accounting for DHS sampling weights, clustering at the PSU level, and stratification.
+\end{tablenotes}
+
+\end{threeparttable}
+\end{table}
