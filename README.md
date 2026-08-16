@@ -1,14 +1,16 @@
 # Non-Random Missingness in Anthropometric Measurements
+
 ### A Multi-Country Analysis of South Asian DHS Data (2011–2022)
 
 ## Overview
 
 Missing anthropometric measurements are routinely encountered in Demographic and Health Surveys (DHS) and are commonly excluded before analysis. However, whether these missing or biologically implausible observations occur randomly is rarely examined. Ignoring systematic missingness can introduce selection bias and affect statistical inference in studies of child nutrition.
 
-This repository contains the complete analytical workflow for my Bachelor of Science (Honours) research project at the Institute of Statistical Research and Training (ISRT), University of Dhaka.
+This repository contains the complete analytical workflow for my Bachelor of Science (Honours) research project at the Institute of Applied Statistics and Data Science (IASDS), University of Dhaka.
 
-The study evaluates whether missing or unusable Height-for-Age Z-score (HAZ) measurements are randomly distributed or systematically associated with observable demographic and socioeconomic characteristics in South Asian DHS surveys. In addition, it compares complete-case analysis with multiple imputation to assess the impact of anthropometric missingness on substantive inference.
+The study evaluates whether missing or unusable Height-for-Age Z-score (HAZ) measurements are randomly distributed or systematically associated with observable demographic and socioeconomic characteristics in South Asian DHS surveys. Additionally, it compares complete-case analysis with multiple imputation to assess the impact of missing anthropometric data on substantive inference.
 
+---
 
 ## Research Questions
 
@@ -22,6 +24,7 @@ This study addresses the following questions:
 
 4. Does multiple imputation materially change inference compared with complete-case analysis?
 
+---
 
 ## Data
 
@@ -36,7 +39,7 @@ The analysis uses nationally representative **Children's Recode (KR)** datasets 
 
 The pooled dataset contains more than **560,000** children aged **0–59 months**.
 
-
+---
 
 ## Data Availability
 
@@ -50,7 +53,7 @@ Researchers wishing to reproduce the analysis should:
 2. Request access to the required Children's Recode (KR) datasets.
 3. Download the approved datasets.
 4. Place the raw files in `data/raw/`.
-5. Run the R scripts to generate the processed dataset used by the Stata analyses.
+5. Run the analysis workflow in the order described below.
 
 More information is available at:
 
@@ -60,31 +63,37 @@ https://dhsprogram.com/data/
 
 ## Methodology
 
-The analytical workflow combines **R** and **Stata**.
-
-### R
-
-- Data import
-- Harmonization of eleven DHS surveys
-- Variable creation
-- Data cleaning
-- Multiple imputation
-- Exploratory visualization
+The analytical workflow combines **Stata** and **R**.
 
 ### Stata
 
-- Construction of pooled datasets
+Stata is used for:
+
+- Selection and harmonization of variables across DHS survey rounds
+- Construction of the pooled dataset
+- Data cleaning and variable construction
 - Complex survey declaration
 - Survey-weighted descriptive statistics
 - Survey-weighted logistic regression
 - Interaction models
 - Marginal predicted probabilities
 - Survey-weighted linear regression
-- Sensitivity analyses
+- Multiple-imputation analysis
+- Sensitivity analysis
+- Dashboard data preparation
 
-The study explicitly accounts for DHS sampling weights, stratification, and clustering throughout all analyses.
+### R
 
+R is used for:
 
+- Data preparation following the initial pooling step
+- Multiple imputation using Predictive Mean Matching
+- Exploratory and presentation visualizations
+- Interactive Shiny dashboard
+
+The study explicitly accounts for DHS sampling weights, stratification, and clustering throughout the survey-weighted analyses.
+
+---
 
 ## Statistical Methods
 
@@ -95,59 +104,111 @@ The analysis includes:
 - Interaction analysis
 - Marginal predicted probabilities
 - Survey-weighted linear regression
-- Multiple Imputation (Predictive Mean Matching)
+- Multiple imputation using Predictive Mean Matching (PMM)
 - Complete-case analysis
-- Sensitivity analysis
+- Sensitivity analysis excluding child age
 
-
+---
 
 ## Repository Structure
 
-```
-DHS-NonRandom-Missingness
+```text
+DHS-NonRandom-Missingness/
 │
 ├── data/
 │   ├── raw/
+│   │   └── README.md
+│   │
 │   └── processed/
+│       ├── selected/
+│       │   └── README.md
+│       │
+│       ├── time_processed/
+│       │   └── README.md
+│       │
+│       ├── imputation_processed/
+│       │   └── README.md
+│       │
+│       └── dashboard/
+│           ├── README.md
+│           ├── overview.csv
+│           └── subgroup.csv
 │
 ├── R/
+│   ├── 02_data_preparation.R
+│   ├── 07_multiple_imputation.R
+│   ├── 10_visualization.R
+│   └── 12_Dashboard.R
 │
 ├── Stata/
+│   ├── 01_Variables_selection_and_pooled_data.do
+│   ├── 03_data_cleaning_and_variable_construction.do
+│   ├── 04_descriptive_analysis.do
+│   ├── 05_regression_analysis.do
+│   ├── 06_interaction_analysis.do
+│   ├── 08_multiple_imputation_analysis.do
+│   ├── 09_sensitivity_analysis_excluding_child_age.do
+│   └── 11_dashboard.do
 │
 ├── outputs/
 │   ├── figures/
-│   └── tables/
+│   └── tables_latex/
 │
 ├── docs/
 │
 ├── references/
 │
 └── README.md
-```
 
 
 
 ## Workflow
 
+> **Working directory:** The scripts use relative file paths. Run the R scripts with the `R/` folder as the working directory and the Stata do-files with the `Stata/` folder as the working directory.
+
 ```
-Raw DHS datasets
-        │
-        ▼
-R
-(Data cleaning & harmonization)
-        │
-        ▼
-Processed dataset
-        │
-        ▼
-Stata
-(Statistical analyses)
-        │
-        ▼
-Tables & Figures
-        │
-        ▼
-Research report
+Raw DHS Children's Recode (KR) datasets
+                    │
+                    ▼
+01_Variables_selection_and_pooled_data.do
+                    │
+                    ▼
+02_data_preparation.R
+                    │
+                    ▼
+03_data_cleaning_and_variable_construction.do
+                    │
+                    ▼
+04_descriptive_analysis.do
+                    │
+                    ▼
+05_regression_analysis.do
+                    │
+                    ▼
+06_interaction_analysis.do
+                    │
+                    ▼
+07_multiple_imputation.R
+                    │
+                    ▼
+08_multiple_imputation_analysis.do
+                    │
+                    ▼
+09_sensitivity_analysis_excluding_child_age.do
+                    │
+                    ▼
+10_visualization.R
+                    │
+                    ▼
+Tables and Figures
+                    │
+                    └──────────────► Optional Dashboard
+                                      │
+                                      ▼
+                                11_dashboard.do
+                                      │
+                                      ▼
+                                12_Dashboard.R
 ```
 
 
@@ -179,9 +240,11 @@ tidyverse
 haven
 survey
 mice
+mitools
 ggplot2
 lattice
 scales
+shiny
 ```
 
 
@@ -196,7 +259,7 @@ The analysis uses data from the Demographic and Health Surveys (DHS) Program. Th
 
 **Tahsina Akter**
 
-Institute of Statistical Research and Training (ISRT)
+Institute of Applied Statistics and Data Science (IASDS)
 
 University of Dhaka
 

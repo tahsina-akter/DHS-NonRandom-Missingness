@@ -6,16 +6,18 @@ library(dplyr)
 library(haven)
 
 
-dhs <- read_dta("data/processed/dhs_combined.dta")
+dhs <- read_dta("../data/processed/selected/dhs_combined.dta")
 
 # Build imputation dataset including design vars (but not to be imputed)
-imp_vars <- c("haz","height_usable","child_age_months","orig_mother_edu",
-              "child_gender","orig_wealth_index","currently_pregnant",
-              "child_illness","residence_type","children_under_5_in_hh",
-              "mother_age","sex_of_hh_head","stratum_id","psu_id","sw")
 
-### imputed with the original variables as imputation should use full information.
+imp_vars <- c("haz", "height_usable", "child_age_months", "mother_education",
+              "child_gender", "wealth_index", "currently_pregnant", 
+              "child_illness", "residence_type", "children_under_5_in_hh", 
+              "mother_age", "sex_of_hh_head", "stratum_id", "psu_id", "sw")
 
+
+# Variables included in the imputation model.
+# Survey design variables are retained but are not themselves imputed.
 imp_data <- dhs %>% select(all_of(imp_vars))
 
 # MICE setup
@@ -74,22 +76,6 @@ df_plot <- data.frame(
             rep("Imputed", length(imputed_haz_1)))
 )
 
-
-ggplot(df_plot, aes(x=value, color=group, fill=group)) +
-  geom_density(alpha=0.2, lwd = .8) +
-  theme_minimal() +
-  labs(title="Observed vs Imputed HAZ Distribution",
-       x="HAZ", y="Density")+
-  theme(legend.position = "top")+
-  scale_fill_manual(values = c("Imputed" = "lightgreen", "Observed" = "blue"))+
-  scale_color_manual(values = c("Imputed" = "green", "Observed" = "blue"))
-  
-
-
-
-
-
-
 df_plot %>%
   ggplot(aes(x = value, fill = group, color = group)) +
   geom_density(alpha = 0.1, lwd = .9) +
@@ -107,7 +93,7 @@ densityplot(imp_pmm, ~haz)                  # the imputed distribution overlaps 
 
 
  
-## Get pooled summary statistics across all 5 imputations
+## Get pooled summary statistics across all 20 imputations
 
 haz_stats <- sapply(1:20, function(i){
   x <- complete(imp_pmm, i)$haz
@@ -118,11 +104,37 @@ haz_stats <- sapply(1:20, function(i){
 haz_stats
 
 
+## Create directory for imputation outputs
+dir.create(
+  "../data/processed/imputation_processed",
+  recursive = TRUE,
+  showWarnings = FALSE
+)
+
+## Save the imputation input dataset
+write_dta(imp_data, "../data/processed/imputation_processed/dhs_imputation.dta")
 
 
-write_dta(imp_data, "C:/Users/tahsi/OneDrive/Desktop/AST_450(Project)/dhsRimp.dta")
+## Save all 20 completed datasets for Stata MI analysis
+for(i in seq_along(completed_list)){
+  
+  write_dta(
+    completed_list[[i]],
+    paste0(
+      "../data/processed/imputation_processed/dhs_imp_",
+      i,
+      ".dta"
+    )
+  )
+  
+}
 
 
+## Save the MICE object for reproducibility
+
+saveRDS( imp_pmm, "../data/processed/imputation_processed/imp_pmm.rds")
 
 
-
+## Next step
+# After completing the multiple imputation, run Stata/08_multiple_imputation_analysis.do 
+# to perform the survey-weighted complete-case and multiple-imputation analyses.

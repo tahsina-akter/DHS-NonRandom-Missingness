@@ -1,12 +1,22 @@
-use "C:\Users\tahsi\OneDrive\Desktop\AST_450(Project)\.dta", clear
+********************************************************************
+* Dashboard Data Preparation
+********************************************************************
+
+clear all
+set more off
+
+global OUT "../data/processed/selected"
+global DASH "../data/processed/dashboard"
+
+use "$OUT/dhs_combined.dta", clear
 
 * Survey design
 svyset psu_id [pweight=sw], strata(stratum_id) singleunit(centered)
 
 * Period variable
 gen period = ""
-replace period = "2011-2016" if time == 1
-replace period = "2017-2022" if time == 2
+replace period = "2011-2016" if survey_period == 1
+replace period = "2017-2022" if survey_period == 2
 drop if period == ""
 
 * Make sure country_cat exists and is labeled
@@ -17,7 +27,7 @@ capture postclose handle
 postutil clear
 
 * Save results to a real .dta file, not only tempfile
-postfile handle str20 country str12 period double usable_pct unusable_pct n using "C:\Users\tahsi\OneDrive\Desktop\AST_450(Project)\dashboard\overview_temp.dta", replace
+postfile handle str20 country str12 period double usable_pct unusable_pct n using "$DASH/overview_temp.dta", replace
 
 levelsof country_cat, local(countries)
 levelsof period, local(periods)
@@ -68,7 +78,7 @@ post handle ("All") ("All") (`usable') (`unusable') (`n')
 
 postclose handle
 
-use "C:\Users\tahsi\OneDrive\Desktop\AST_450(Project)\dashboard\overview_temp.dta", clear
+use "$DASH/overview_temp.dta", clear
 
 order country period usable_pct unusable_pct n
 sort country period
@@ -78,11 +88,11 @@ duplicates drop country period usable_pct unusable_pct n, force
 count
 list, sepby(country)
 
-export delimited using "C:\Users\tahsi\OneDrive\Desktop\AST_450(Project)\dashboard\overview.csv", replace
+export delimited using "$DASH/overview.csv", replace
 
 clear
 
-use "C:\Users\tahsi\OneDrive\Desktop\AST_450(Project)\DHS.dta", clear
+use "$OUT/dhs_combined.dta", clear
 
 *------------------------------------------------------------
 * 1. Survey design
@@ -93,14 +103,14 @@ svyset psu_id [pweight=sw], strata(stratum_id)
 * 2. Create period from time
 *------------------------------------------------------------
 gen period = ""
-replace period = "2011-2016" if time == 1
-replace period = "2017-2022" if time == 2
+replace period = "2011-2016" if survey_period == 1
+replace period = "2017-2022" if survey_period == 2
 drop if period == ""
 
 *------------------------------------------------------------
 * 3. Keep needed variables
 *------------------------------------------------------------
-keep country period height_usable sw stratum_id psu_id orig_wealth_index orig_mother_edu residence_type child_gender
+keep country period height_usable sw stratum_id psu_id wealth_index mother_education residence_type child_gender
 
 *------------------------------------------------------------
 * 4. Start fresh
@@ -108,12 +118,12 @@ keep country period height_usable sw stratum_id psu_id orig_wealth_index orig_mo
 capture postclose handle
 postutil clear
 
-postfile handle  str20 country str12 period str25 variable str30 level double usable_pct unusable_pct n using "C:\Users\tahsi\OneDrive\Desktop\AST_450(Project)\dashboard\subgroup_temp.dta", replace
+postfile handle  str20 country str12 period str25 variable str30 level double usable_pct unusable_pct n using "$DASH/subgroup_temp.dta", replace
 
 *------------------------------------------------------------
 * 5. Variables to summarize
 *------------------------------------------------------------
-local vars orig_wealth_index orig_mother_edu residence_type child_gender
+local vars wealth_index mother_education residence_type child_gender
 
 *------------------------------------------------------------
 * 6. Loop over variables, countries, periods, and levels
@@ -124,8 +134,8 @@ levelsof period, local(periods)
 foreach v of local vars {
 
     local vname "`v'"
-    if "`v'" == "orig_wealth_index" local vname "Wealth quintile"
-    if "`v'" == "orig_mother_edu"  local vname "Maternal education"
+    if "`v'" == "wealth_index" local vname "Wealth quintile"
+    if "`v'" == "mother_education"  local vname "Maternal education"
     if "`v'" == "residence_type"   local vname "Residence"
     if "`v'" == "child_gender"     local vname "Child sex"
 
@@ -239,7 +249,7 @@ postclose handle
 *------------------------------------------------------------
 * 7. Open, clean, inspect
 *------------------------------------------------------------
-use "C:\Users\tahsi\OneDrive\Desktop\AST_450(Project)\dashboard\subgroup_temp.dta", clear
+use "$DASH/subgroup_temp.dta", clear
 
 order country period variable level usable_pct unusable_pct n
 sort variable country period level
@@ -252,4 +262,6 @@ list in 1/30, clean
 *------------------------------------------------------------
 * 8. Export CSV for Shiny
 *------------------------------------------------------------
-export delimited using "C:\Users\tahsi\OneDrive\Desktop\AST_450(Project)\dashboard\subgroup_summary.csv", replace
+export delimited using "$DASH/subgroup.csv", replace
+
+*** Run R/12_Dashboard.R to launch the interactive Shiny dashboard.

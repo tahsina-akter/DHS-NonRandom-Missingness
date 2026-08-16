@@ -4,8 +4,8 @@ library(dplyr)
 library(readr)
 library(tidyr)
 
-overview <- read_csv("overview.csv")
-subgroup <- read_csv("subgroup_summary.csv")
+overview <- read_csv("../data/processed/dashboard/overview.csv")
+subgroup <- read_csv("../data/processed/dashboard/subgroup.csv")
 
 haz_compare <- data.frame(
   Predictor = c(
@@ -87,7 +87,7 @@ ui <- fluidPage(
       
       selectInput(
         "period",
-        "Period:",
+        "period:",
         choices = unique(subgroup$period),
         selected = "2011-2016"
       ),

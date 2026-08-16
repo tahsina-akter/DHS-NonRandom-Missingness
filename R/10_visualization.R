@@ -4,7 +4,7 @@ library(scales)    # percent_format(), label_percent()
 
 
 
-dhs <- read_dta("data/processed/dhs_combined.dta")
+dhs <- read_dta("../data/processed/selected/dhs_combined.dta")
 
 dhs <- dhs %>%
   mutate(height_usable = haven::as_factor(height_usable, levels = "values"))
@@ -56,12 +56,12 @@ fig2
 
 fig3 <- dhs %>%
   mutate(
-    orig_mother_edu = factor(orig_mother_edu,
+    mother_education = factor(mother_education,
                              levels = c(0, 1, 2, 3),
                              labels = c("No education", "Primary", "Secondary", "Higher"))
   ) %>%
-  filter(!is.na(orig_mother_edu)) %>%
-  ggplot(aes(x = orig_mother_edu, fill = height_usable)) +
+  filter(!is.na(mother_education)) %>%
+  ggplot(aes(x = mother_education, fill = height_usable)) +
   geom_bar(position = "fill", width = 0.75) +
   scale_y_continuous(labels = percent_format(accuracy = 1)) +
   labs(
@@ -81,7 +81,7 @@ fig3
 
 fig4 <- dhs %>%
   mutate(
-    residence_type = factor(residence_type, levels = c(0, 1),
+    residence_type = factor(residence_type, levels = c(1, 2),
                             labels = c("Urban", "Rural"))
   ) %>%
   filter(!is.na(residence_type)) %>%
@@ -122,12 +122,12 @@ fig5
 
 fig6 <- dhs %>%
   mutate(
-    orig_wealth_index = factor(orig_wealth_index,
+    wealth_index = factor(wealth_index,
                                levels = c(1, 2, 3, 4, 5),
                                labels = c("Poorest", "Poorer", "Middle", "Richer", "Richest"))
   ) %>%
-  filter(!is.na(orig_wealth_index)) %>%
-  ggplot(aes(x = orig_wealth_index, fill = height_usable)) +
+  filter(!is.na(wealth_index)) %>%
+  ggplot(aes(x = wealth_index, fill = height_usable)) +
   geom_bar(position = "fill", width = 0.75) +
   scale_y_continuous(labels = percent_format(accuracy = 1)) +
   labs(
@@ -144,25 +144,12 @@ fig6
 
 
 
-fig7 <- ggplot(fig7_dat, aes(x = p, y = country)) +
-  geom_point(size = 4, color = "#1F3B73")+
-  scale_x_continuous(labels = percent_format(accuracy = 1)) +
-  labs(
-    title = "Percentage of Non-Usable Height by Country",
-    x = "Not usable (%)", y = NULL
-  ) +
-  theme_minimal(base_size = 14)
-
-fig7
-
-
-
 fig_haz_wealth <- dhs %>%
-  filter(!is.na(haz), !is.na(orig_wealth_index)) %>%
-  mutate(orig_wealth_index = factor(orig_wealth_index,
+  filter(!is.na(haz), !is.na(wealth_index)) %>%
+  mutate(wealth_index = factor(wealth_index,
                                     levels = c(1,2,3,4,5),
                                     labels = c("Poorest","Poorer","Middle","Richer","Richest"))) %>%
-  ggplot(aes(x = haz, color = orig_wealth_index)) +
+  ggplot(aes(x = haz, color = wealth_index)) +
   geom_density(linewidth = 0.9) +
   labs(title = "HAZ Distribution by Wealth Quintile",
        x = "HAZ", y = "Density", color = NULL) +
@@ -173,7 +160,7 @@ fig_haz_wealth
 
 
 
-
+#### plots used in the presentation
 
 
 # visually Adjusted odds ratio (95% CI)
@@ -305,7 +292,7 @@ p <- ggplot(coef_wide, aes(y = term)) +
   geom_point(
     aes(x = mi),
     size = 5,
-    color = "red", alpha= 0.5, 
+    color = "red", alpha= 0.5
   ) +
   labs(
     x = expression(hat(beta)),
@@ -349,7 +336,7 @@ print(p_final)
 
 
 
-# Adjusted odds ratio plot fro dashboard
+# Adjusted odds ratio plot for dashboard
 
 
 coef_wide <- tribble(
@@ -485,3 +472,9 @@ p <- ggplot(plot_df, aes(x = year, y = country)) +
   )
 
 print(p)
+
+
+
+## Next step
+# The interactive dashboard is optional. If desired, run Stata/11_dashboard.do 
+# to prepare the dashboard data, followed by R/12_Dashboard.R to launch the interactive dashboard.
