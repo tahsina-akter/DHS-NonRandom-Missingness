@@ -8,9 +8,11 @@ library(haven)
 
 dhs <- read_dta("../data/processed/selected/dhs_combined.dta")
 
-# Build imputation dataset including design vars (but not to be imputed)
+# Build a unique identifier for each child in the imputation dataset
+dhs <- dhs %>%
+  mutate(pid = row_number())
 
-imp_vars <- c("haz", "height_usable", "child_age_months", "mother_education",
+imp_vars <- c("pid","haz", "height_usable", "child_age_months", "mother_education",
               "child_gender", "wealth_index", "currently_pregnant", 
               "child_illness", "residence_type", "children_under_5_in_hh", 
               "mother_age", "sex_of_hh_head", "stratum_id", "psu_id", "sw")
@@ -28,8 +30,8 @@ methods[names(methods) != "haz" & names(methods) != "child_age_months"] <- ""
 
 pred <- make.predictorMatrix(imp_data)
 pred[,] <- 1
-pred[, c("stratum_id","psu_id","sw")] <- 0
-pred[c("stratum_id","psu_id","sw"), ] <- 0
+pred[, c("pid","stratum_id","psu_id","sw")] <- 0
+pred[c("pid","stratum_id","psu_id","sw"), ] <- 0
 
 # Run PMM(Predictive mean matching)
 imp_pmm <- mice(imp_data, 

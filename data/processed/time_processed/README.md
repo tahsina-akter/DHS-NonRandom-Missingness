@@ -1,6 +1,6 @@
 # Time-Processed Data
 
-This folder contains the datasets created during the temporal analysis of the pooled DHS data.
+This folder is used to store datasets generated during the temporal analysis of the pooled DHS data. The generated datasets are not included in the repository.
 
 The temporal analysis was conducted to examine whether patterns and associations in height measurement usability changed across survey periods.
 

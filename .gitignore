@@ -21,6 +21,11 @@
 # RStudio files
 .Rproj.user/
 
+# DHS / Stata / generated analysis data
+*.dta
+*.rds
+*.smcl
+
 # produced vignettes
 vignettes/*.html
 vignettes/*.pdf

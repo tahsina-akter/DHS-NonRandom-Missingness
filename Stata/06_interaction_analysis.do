@@ -3,6 +3,9 @@
 *
 * This model evaluates whether the association between household wealth and the usability of child height measurements changed across survey periods (2011–2016 vs. 2017–2022).
 ********************************************************************
+clear
+
+global OUT "../data/processed/selected"
 use "$OUT/dhs_combined.dta"
 
 * Survey-weighted logistic regression with wealth × survey period interaction
@@ -33,6 +36,8 @@ marginsplot, title("Predicted Probability of Usable Height by Wealth and Survey 
 *
 * This model evaluates whether the association between the type of residence and the usability of child height measurements changed across survey periods (2011–2016 vs. 2017–2022).
 ********************************************************************
+clear
+
 use "$OUT/dhs_combined.dta"
 
 * Survey-weighted logistic regression with residence_type × survey period interaction

@@ -18,17 +18,17 @@ To keep the raw data organized and make the analysis scripts easier to follow, s
 
 For example:
 
-- `bd_11.dta` — Bangladesh 2011
-- `bd_14.dta` — Bangladesh 2014
-- `bd_17_18.dta` — Bangladesh 2017–18
-- `bd_22.dta` — Bangladesh 2022
-- `in_15_16.dta` — India 2015–16
-- `in_19_21.dta` — India 2019–21
-- `np_11.dta` — Nepal 2011
-- `np_16.dta` — Nepal 2016
-- `np_22.dta` — Nepal 2022
-- `pk_12_13.dta` — Pakistan 2012–13
-- `pk_17_18.dta` — Pakistan 2017–18
+- `bd_11.dta` — Bangladesh 2011 (BDKR61FL.DTA)
+- `bd_14.dta` — Bangladesh 2014 (BDKR72FL.DTA)
+- `bd_17_18.dta` — Bangladesh 2017–18 (BDKR7RFL.DTA)
+- `bd_22.dta` — Bangladesh 2022 (BDKR81FL.DTA)
+- `in_15_16.dta` — India 2015–16 (IAKR74FL.DTA)
+- `in_19_21.dta` — India 2019–21 (IAKR7EFL.DTA)
+- `np_11.dta` — Nepal 2011 (NPKR61FL.DTA)
+- `np_16.dta` — Nepal 2016 (NPKR7HFL.DTA)
+- `np_22.dta` — Nepal 2022 (NPKR82FL.DTA)
+- `pk_12_13.dta` — Pakistan 2012–13 (PKKR61FL.DTA)
+- `pk_17_18.dta` — Pakistan 2017–18 (PKKR71FL.DTA)
 
 The first step is to run:
 

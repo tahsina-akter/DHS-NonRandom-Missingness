@@ -3,12 +3,9 @@
 * Step : Data cleaning and variable construction
 ********************************************************************
 
+global OUT "../data/processed/selected"
+
 use "$OUT/dhs_combined.dta", clear
-
-
-* Exclude strata identified for exclusion in the original analysis to reproduce the original analytic sample.
-
-drop if stratum_id == "India_2015-16_2410" | stratum_id == "India_2015-16_972" | stratum_id == "Pakistan_2012-13_69"
 
 ********************************************************************
 * Step : Construct anthropometric outcome variables
@@ -26,7 +23,7 @@ label variable height_missing "Missing height measurement"
 
 * Biologically implausible HAZ (WHO criterion)
 gen height_implausible = 0
-replace height_implausible = 1 if haz < -6 | haz > 6
+replace height_implausible = 1 if !missing(haz) & (haz < -6 | haz > 6)
 
 label values height_implausible yesno
 label variable height_implausible "Biologically implausible height"

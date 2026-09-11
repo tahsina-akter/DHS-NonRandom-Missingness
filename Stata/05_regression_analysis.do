@@ -1,6 +1,8 @@
 ********************************************************************
 * Step : Logistic regression
 ********************************************************************
+clear
+global OUT "../data/processed/selected"
 
 use "$OUT/dhs_combined.dta"
 

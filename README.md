@@ -6,8 +6,6 @@
 
 Missing anthropometric measurements are routinely encountered in Demographic and Health Surveys (DHS) and are commonly excluded before analysis. However, whether these missing or biologically implausible observations occur randomly is rarely examined. Ignoring systematic missingness can introduce selection bias and affect statistical inference in studies of child nutrition.
 
-This repository contains the complete analytical workflow for my Bachelor of Science (Honours) research project at the Institute of Applied Statistics and Data Science (IASDS), University of Dhaka.
-
 The study evaluates whether missing or unusable Height-for-Age Z-score (HAZ) measurements are randomly distributed or systematically associated with observable demographic and socioeconomic characteristics in South Asian DHS surveys. Additionally, it compares complete-case analysis with multiple imputation to assess the impact of missing anthropometric data on substantive inference.
 
 ---
@@ -80,7 +78,6 @@ Stata is used for:
 - Survey-weighted linear regression
 - Multiple-imputation analysis
 - Sensitivity analysis
-- Dashboard data preparation
 
 ### R
 
@@ -88,8 +85,7 @@ R is used for:
 
 - Data preparation following the initial pooling step
 - Multiple imputation using Predictive Mean Matching
-- Exploratory and presentation visualizations
-- Interactive Shiny dashboard
+- Exploratory and visualization analyses
 
 The study explicitly accounts for DHS sampling weights, stratification, and clustering throughout the survey-weighted analyses.
 
@@ -127,18 +123,11 @@ DHS-NonRandom-Missingness/
 │       │   └── README.md
 │       │
 │       ├── imputation_processed/
-│       │   └── README.md
-│       │
-│       └── dashboard/
-│           ├── README.md
-│           ├── overview.csv
-│           └── subgroup.csv
-│
+│           └── README.md      
 ├── R/
 │   ├── 02_data_preparation.R
 │   ├── 07_multiple_imputation.R
-│   ├── 10_visualization.R
-│   └── 12_Dashboard.R
+│   └── 10_visualization.R
 │
 ├── Stata/
 │   ├── 01_Variables_selection_and_pooled_data.do
@@ -147,19 +136,12 @@ DHS-NonRandom-Missingness/
 │   ├── 05_regression_analysis.do
 │   ├── 06_interaction_analysis.do
 │   ├── 08_multiple_imputation_analysis.do
-│   ├── 09_sensitivity_analysis_excluding_child_age.do
-│   └── 11_dashboard.do
-│
-├── outputs/
-│   ├── figures/
-│   └── tables_latex/
-│
-├── docs/
+│   └── 09_sensitivity_analysis_excluding_child_age.do
 │
 ├── references/
 │
 └── README.md
-
+```
 
 
 ## Workflow
@@ -198,17 +180,6 @@ Raw DHS Children's Recode (KR) datasets
                     │
                     ▼
 10_visualization.R
-                    │
-                    ▼
-Tables and Figures
-                    │
-                    └──────────────► Optional Dashboard
-                                      │
-                                      ▼
-                                11_dashboard.do
-                                      │
-                                      ▼
-                                12_Dashboard.R
 ```
 
 
@@ -244,7 +215,6 @@ mitools
 ggplot2
 lattice
 scales
-shiny
 ```
 
 

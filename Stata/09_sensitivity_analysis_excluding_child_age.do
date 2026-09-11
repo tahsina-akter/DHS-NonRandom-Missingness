@@ -14,4 +14,4 @@ svy: logit height_usable i.child_gender i.child_illness children_under_5_in_hh m
 estimates store Sensitivity
 
 
-* Next, run R/10_visualization.R to generate the figures for the report.
+* Next, run R/10_visualization.R to generate the figures.

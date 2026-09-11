@@ -12,7 +12,7 @@ Multiple imputation is carried out using **Predictive Mean Matching (PMM)** with
 
 The imputation workflow generates:
 
-- `dhs_imputation.dta` — the imputation dataset containing the variables used in the imputation procedure.
+- `dhs_imputation.dta` — the original imputation dataset (m = 0) containing the variables used in the imputation procedure.
 - `dhs_imp_1.dta` through `dhs_imp_20.dta` — the 20 completed imputed datasets.
 - `imp_pmm.rds` — the saved `mice` imputation object.
 

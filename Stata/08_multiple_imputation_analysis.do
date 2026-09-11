@@ -32,26 +32,22 @@ estimates store CC_haz
 * Step : Stack the 20 imputed datasets exported from R
 ********************************************************************
 
-use "$IMP/dhs_imp_1.dta", clear
+use "$IMP/dhs_imputation.dta", clear
 
-gen _mj = 1
+gen _mj = 0
 
-forvalues j = 2/20 {
-
+forvalues j = 1/20 {
     append using "$IMP/dhs_imp_`j'.dta"
-
     replace _mj = `j' if missing(_mj)
-
 }
-
-bysort _mj: gen long pid = _n
 
 save "$IMP/stacked_imp_long.dta", replace
 
 
 ********************************************************************
-* Step 3: Import stacked data into Stata's MI framework
+* Step : Import stacked data into Stata's MI framework
 ********************************************************************
+
 
 use "$IMP/stacked_imp_long.dta", clear
 
@@ -78,8 +74,6 @@ mi register regular child_gender child_illness children_under_5_in_hh mother_age
 mi describe
 
 mi misstable summarize haz child_age_months
-
-
 
 
 ********************************************************************
